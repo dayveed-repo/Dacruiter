@@ -21,7 +21,8 @@ export const handleSuccessfulPayment = async (
         .from("payments")
         .select("*")
         .eq("paymentIntentId", paymentIntentId)
-        .single();
+        .limit(1)
+        .maybeSingle();
 
     if (completedPayment?.id && completedPayment?.status === "paid") {
       return { error: "Payment transaction already processed" };
@@ -114,7 +115,8 @@ export const handleFailedPayment = async (
         .from("payments")
         .select("*")
         .eq("paymentIntentId", paymentIntentId)
-        .single();
+        .limit(1)
+        .maybeSingle();
 
     if (
       completedPayment?.id &&

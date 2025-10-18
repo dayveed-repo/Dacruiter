@@ -40,7 +40,6 @@ export async function POST(req: NextRequest) {
       userEmail: "",
       supabaseUserId: "",
     };
-    console.log(event);
 
     let paymentResponse;
 
@@ -68,6 +67,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (paymentResponse?.error) {
+      console.log(paymentResponse);
       return NextResponse.json(
         { error: paymentResponse.error },
         { status: 403 }
