@@ -46,10 +46,14 @@ export const handleSuccessfulPayment = async (
       };
     }
 
-    const { error: updatedUserError } = await supabase.from("users").update({
-      numOfCredits: (userData.numOfCredits || 0) + metadata.numberOfCredits,
-      totalCredits: (userData.totalCredits || 0) + metadata.numberOfCredits,
-    });
+    const { error: updatedUserError } = await supabase
+      .from("users")
+      .update({
+        numOfCredits: (userData.numOfCredits || 0) + metadata.numberOfCredits,
+        totalCredits: (userData.totalCredits || 0) + metadata.numberOfCredits,
+      })
+      .eq("email", metadata.userEmail)
+      .select();
 
     if (updatedUserError) {
       return {
