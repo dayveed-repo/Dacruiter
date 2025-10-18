@@ -49,8 +49,10 @@ export const handleSuccessfulPayment = async (
     const { error: updatedUserError } = await supabase
       .from("users")
       .update({
-        numOfCredits: (userData.numOfCredits || 0) + metadata.numberOfCredits,
-        totalCredits: (userData.totalCredits || 0) + metadata.numberOfCredits,
+        numOfCredits:
+          Number(userData.numOfCredits || 0) + Number(metadata.numberOfCredits),
+        totalCredits:
+          Number(userData.totalCredits || 0) + Number(metadata.numberOfCredits),
       })
       .eq("email", metadata.userEmail)
       .select();
