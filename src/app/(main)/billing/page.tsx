@@ -10,6 +10,7 @@ import { BiPurchaseTag } from "react-icons/bi";
 const Billing = () => {
   const [showModal, setShowModal] = useState(false);
   const [user] = useUser();
+  const [refreshHistory, setrefreshHistory] = useState(0);
 
   if (!user?.id) return null;
 
@@ -34,7 +35,10 @@ const Billing = () => {
             title="Buy More Credits"
             onClose={() => setShowModal(false)}
           >
-            <PaymentModal />
+            <PaymentModal
+              onClose={() => setShowModal(false)}
+              setrefreshHistory={setrefreshHistory}
+            />
           </Modal>
         </div>
 

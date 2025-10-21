@@ -26,13 +26,13 @@ const sidebarItems: SidebarItem[] = [
     path: "/dashboard",
     icon: <FaTachometerAlt />,
   },
+  // {
+  //   title: "Scheduled Interviews",
+  //   path: "/available-interviews",
+  //   icon: <FaCalendarAlt />,
+  // },
   {
-    title: "Scheduled Interviews",
-    path: "/available-interviews",
-    icon: <FaCalendarAlt />,
-  },
-  {
-    title: "All Interviews",
+    title: "My Interviews",
     path: "/interviews",
     icon: <FaListAlt />,
   },

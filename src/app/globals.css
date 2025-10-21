@@ -95,3 +95,17 @@ body {
     transparent 100%
   );
 }
+
+@keyframes shrikandexpand {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.35);
+  }
+}
+
+.speaking {
+  animation: shrikandexpand 2s ease-in-out 0.6s infinite;
+}

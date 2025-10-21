@@ -26,30 +26,30 @@ const Process = () => {
   return (
     <div
       id={"process"}
-      className="pt-10 pb-[90px] w-full px-4 md:px-5 gradient-section"
+      className="pt-8 md:pt-10 pb-12 md:pb-[90px] w-full px-4 md:px-5 gradient-section"
       style={{
         background: "",
       }}
     >
       <div className="w-full max-w-6xl mx-auto">
-        <h3 className="text-3xl text-foreground font-lato font-bold text-center">
+        <h3 className="text-2xl md:text-3xl text-foreground font-lato font-bold text-center">
           Simple Steps to Streamline Recruitent
         </h3>
 
-        <div className="mt-5 grid grid-cols-3 gap-6">
+        <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-6">
           {processes.map((step) => (
             <div
               key={step.title}
-              className="flex flex-col items-center space-y-4"
+              className="flex flex-col md:items-center space-y-4"
             >
               <div className="w-10 h-10 flex items-center justify-center rounded-full bg-primary">
                 <step.icon className="text-xl text-white" />
               </div>
 
-              <h4 className="text-foreground text-xl font-semibold text-center">
+              <h4 className="text-foreground text-lg md:text-xl font-semibold md:text-center">
                 {step.title}
               </h4>
-              <p className="text-foreground-secondary text-sm font-medium text-center">
+              <p className="text-foreground-secondary text-sm font-medium md:text-center">
                 {step.description}
               </p>
             </div>

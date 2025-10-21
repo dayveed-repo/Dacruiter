@@ -25,11 +25,11 @@ const DashboardNavbar = ({
     if (pathname === "/dashboard") {
       settitle("Dashboard");
     } else if (pathname === "/available-interviews") {
-      settitle("Interviews");
+      settitle("Available Interviews");
     } else if (pathname === "/create-interview") {
       settitle("New Interview");
     } else if (pathname === "/interviews") {
-      settitle("Interviews");
+      settitle("My Interviews");
     } else if (pathname === "/billing") {
       settitle("Billing");
     } else if (pathname === "/settings") {

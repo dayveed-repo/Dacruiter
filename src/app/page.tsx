@@ -17,11 +17,11 @@ export default function Home() {
       <About />
       <Features />
 
-      <div className="w-full bg-primary flex flex-col items-center space-y-4 px-4 py-12">
-        <h2 className="text-white font-lato text-3xl font-bold">
+      <div className="w-full bg-primary flex flex-col items-center space-y-4 px-4 py-8 md:py-12">
+        <h2 className="text-white font-lato text-2xl md:text-3xl font-bold md:text-start text-center">
           Ready to Elevant your Recruitment Process
         </h2>
-        <p className="text-white/60 text-base font-medium">
+        <p className="text-white/60 text-sm md:text-base font-medium">
           Join the many recruiters utilizing the plaform
         </p>
         <button className="base-button bg-white text-primary">

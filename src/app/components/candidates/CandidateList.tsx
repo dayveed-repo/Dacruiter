@@ -14,6 +14,7 @@ const CandidateList = ({
   endTime,
   isRecommended,
   feedback,
+  sessionId,
 }: {
   candidateName: string;
   candidateEmail: string;
@@ -23,15 +24,18 @@ const CandidateList = ({
   endTime: string;
   isRecommended: boolean;
   feedback: { [key: string]: any };
+  sessionId: number;
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [transcripts, settranscripts] = useState<any[]>([]);
 
   const fetchTranscripts = async () => {
     try {
+      if (!sessionId) return;
       const { data, count, error } = await supabase
         .from("transcripts")
-        .select("*", { count: "exact" });
+        .select("*", { count: "exact" })
+        .eq("interviewSessionId", sessionId);
 
       if (error) {
         console.error("Error fetching transcripts:", error);
@@ -82,7 +86,7 @@ const CandidateList = ({
         title="View Candidate Result"
         onClose={() => setShowModal(false)}
       >
-        <div className="w-full">
+        <div className="w-full max-w-4xl">
           <div className="flex items-center justify-between mb-6">
             <div className="space-y-1">
               <div className="flex items-center space-x-2">
@@ -172,13 +176,17 @@ const CandidateList = ({
               {transcripts.length ? (
                 <>
                   {transcripts.map((tran) => (
-                    <div key={tran.id} className="mb-2 last:mb-0 space-y-1">
-                      <h4 className="text-sm font-semibold text-foreground">
+                    <div
+                      key={tran.id}
+                      className="mb-2 last:mb-0 space-x-2 flex items-start"
+                    >
+                      <h4 className="text-sm font-semibold text-foreground md:w-[20%] lg:w-[15%]">
                         {tran.messageSource === "assistant"
                           ? "Ai Assistant"
-                          : candidateName}
+                          : candidateName}{" "}
+                        :
                       </h4>
-                      <p className="text-xs text-foreground-secondary">
+                      <p className="text-sm text-foreground-secondary md:max-w-[80%] lg:w-[85%]">
                         {tran.message}
                       </p>
                     </div>

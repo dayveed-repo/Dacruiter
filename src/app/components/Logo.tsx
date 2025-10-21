@@ -9,7 +9,10 @@ const pacifico = Pacifico({
 
 const Logo = ({ pathname = "/" }: { pathname?: string }) => {
   return (
-    <Link href={pathname} className={`${pacifico.className} logo text-[2rem]`}>
+    <Link
+      href={pathname}
+      className={`${pacifico.className} logo text-[1.75rem] md:text-[2rem]`}
+    >
       Danq
     </Link>
   );

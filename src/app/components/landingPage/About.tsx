@@ -4,13 +4,22 @@ import React from "react";
 const About = () => {
   return (
     <div id="about" className="pt-10 pb-14 w-full px-4 md:px-5">
-      <div className="w-full max-w-6xl mx-auto flex space-x-12 items-center justify-between">
-        <div className="w-[55%] space-y-6">
-          <h3 className="text-3xl text-foreground font-lato font-bold">
+      <div className="w-full md:max-w-6xl mx-auto flex md:space-x-12 items-center justify-between">
+        <div className="md:w-[55%] md:space-y-6">
+          <h3 className="text-2xl md:text-3xl text-foreground font-lato font-bold md:text-start text-center">
             About Us
           </h3>
 
-          <p className="text-foreground-secondary text-base font-medium">
+          <Image
+            src={"/about.jpg"}
+            alt={"About us"}
+            height={0}
+            width={0}
+            unoptimized
+            className="w-full h-auto md:hidden mt-5 mb-6"
+          />
+
+          <p className="text-foreground-secondary text-sm md:text-base font-medium">
             We are on a mission to revolutionize the hiring process. Traditional
             recruitment often consumes endless hours with scheduling, repetitive
             interviews, and subjective evaluations, leaving recruiters and
@@ -34,7 +43,7 @@ const About = () => {
           height={0}
           width={0}
           unoptimized
-          className="w-[40%]  h-auto"
+          className="w-[40%] h-auto md:block hidden"
         />
       </div>
     </div>

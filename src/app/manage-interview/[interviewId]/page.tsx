@@ -322,6 +322,7 @@ const ManageInterview = () => {
                 {candidates.map((candidate: { [key: string]: any }) => (
                   <CandidateList
                     key={candidate?.id}
+                    sessionId={candidate.id}
                     candidateEmail={candidate?.userEmail || ""}
                     candidateName={candidate?.username || "Unknown"}
                     dateCompleted={candidate?.created_at || ""}

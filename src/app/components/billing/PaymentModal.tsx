@@ -1,15 +1,20 @@
 "use client";
 import { LuEqualApproximately } from "react-icons/lu";
-import React, { use, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { config } from "@/app/config/toast";
 import useUser from "@/app/hooks/getUser";
 import { LuShoppingBag } from "react-icons/lu";
-import StripePaymentElement from "./StripePaymentWrapper";
 import StripePaymentWrapper from "./StripePaymentWrapper";
 import { MdArrowBack } from "react-icons/md";
 
-const PaymentModal = ({ onClose }: { onClose?: () => void }) => {
+const PaymentModal = ({
+  onClose,
+  setrefreshHistory,
+}: {
+  onClose?: () => void;
+  setrefreshHistory: Dispatch<SetStateAction<number>>;
+}) => {
   const [numberOfCredits, setnumberOfCredits] = useState(10);
   const [generatingStripeIntent, setgeneratingStripeIntent] = useState(false);
   const [clientSecret, setClientSecret] = useState<any>(null);
@@ -83,6 +88,8 @@ const PaymentModal = ({ onClose }: { onClose?: () => void }) => {
         <StripePaymentWrapper
           clientSecret={clientSecret}
           credits={numberOfCredits}
+          onClose={onClose}
+          setrefreshHistory={setrefreshHistory}
         />
       </div>
     );
@@ -138,9 +145,7 @@ const PaymentModal = ({ onClose }: { onClose?: () => void }) => {
           onClick={generateStripeIntent}
           disabled={generatingStripeIntent}
         >
-          {generatingStripeIntent
-            ? "Generating payment link..."
-            : "Generate payment link"}
+          {generatingStripeIntent ? "Processing..." : "Proceed to Payment"}
         </button>
       </div>
     </div>

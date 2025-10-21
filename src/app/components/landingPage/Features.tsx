@@ -49,13 +49,16 @@ const features = [
 
 const Features = () => {
   return (
-    <div id="features" className="pt-[65px] pb-[80px] w-full px-4 md:px-5">
-      <div className="w-full max-w-6xl mx-auto">
-        <h3 className="text-3xl text-foreground font-lato font-bold">
+    <div
+      id="features"
+      className="pt-10 md:pt-[65px] pb-14 md:pb-[80px] w-full px-4 md:px-5"
+    >
+      <div className="w-full md:max-w-6xl mx-auto">
+        <h3 className="text-2xl md:text-3xl text-foreground font-lato font-bold md:text-start text-center">
           Powerful Features
         </h3>
 
-        <div className="mt-5 grid grid-cols-3 gap-8">
+        <div className="mt-5 grid md:grid-cols-3 gap-6 md:gap-8">
           {features.map((feature) => (
             <div
               key={feature.title}

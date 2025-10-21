@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
           userEmail: candidateEmail,
           feedback: feedback,
           averageRating,
-          isRecommended: finalSummary.recommendation?.toLowerCase() === "yes",
+          isRecommended: feedback.recommendation?.toLowerCase() === "yes",
           startTime,
           endTime,
         },

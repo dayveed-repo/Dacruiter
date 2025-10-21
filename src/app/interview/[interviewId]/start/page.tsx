@@ -140,6 +140,7 @@ const InterviewSession = () => {
   const endInterview = async () => {
     if (endingInterview) return;
     setendingInterview(true);
+    setinfoText("Ending Interview...");
 
     try {
       const response = await fetch("/api/end-interview", {
@@ -167,10 +168,12 @@ const InterviewSession = () => {
       } else {
         toast.error(responseData.error || "Failed to end interview", config);
         setendingInterview(false);
+        setinfoText("Interview In Progress...");
       }
     } catch (error) {
       console.log("Failed to end interview: ", error);
       toast.error("Failed to end interview", config);
+      setinfoText("Interview In Progress...");
       setendingInterview(false);
     }
   };
@@ -195,9 +198,9 @@ const InterviewSession = () => {
       setinfoText("Interview In Progress...");
       setstartTime(new Date());
     };
-    const handleCallEnd = () => {
+    const handleCallEnd = async () => {
       stopTimer();
-      endInterview();
+      await endInterview();
     };
     const handleMessage = (msg: any) => {
       if (msg?.type === "conversation-update") {
@@ -228,9 +231,9 @@ const InterviewSession = () => {
       vapiRef.current?.off("speech-start", handleSpeechStart);
       vapiRef.current?.off("speech-end", handleSpeechEnd);
       vapiRef.current?.off("call-start", handleCallStart);
-      vapiRef.current?.off("call-end", handleCallEnd);
+      // vapiRef.current?.off("call-end", handleCallEnd);
       vapiRef.current?.off("message", handleMessage);
-      vapiRef.current?.stop();
+      // vapiRef.current?.stop();
       stopTimer();
     };
   }, [interviewData?.id]);
@@ -379,7 +382,7 @@ const InterviewSession = () => {
             {/* <Image  /> */}
             <div className="relative h-max w-max">
               {!userSpeaking && startTime ? (
-                <div className="absolute inset-0 h-full w-full bg-primary/10 animate-pulse rounded-full" />
+                <div className="absolute top-0 left-0 inset-0 h-[100px] w-[100px] bg-primary/30 animate-pulse speaking rounded-full" />
               ) : (
                 ""
               )}
@@ -400,7 +403,7 @@ const InterviewSession = () => {
             {/* <Image  /> */}
             <div className="relative h-max w-max">
               {userSpeaking && startTime ? (
-                <div className="absolute inset-0 h-full w-full bg-primary/10 animate-pulse rounded-full" />
+                <div className="absolute top-0 left-0 inset-0 h-[80px] w-[80px] bg-primary/30 animate-pulse speaking rounded-full" />
               ) : (
                 ""
               )}

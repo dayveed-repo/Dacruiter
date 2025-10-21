@@ -1,84 +1,104 @@
-const payments: any[] = [
-  //   {
-  //     id: "INV-001",
-  //     amount: "$100.00",
-  //     status: "paid",
-  //     numOfCredits: 10,
-  //     dateIssued: "2024-01-15",
-  //   },
-  //   {
-  //     id: "INV-002",
-  //     amount: "$150.00",
-  //     status: "pending",
-  //     numOfCredits: 10,
-  //     dateIssued: "2024-02-10",
-  //   },
-  //   {
-  //     id: "INV-003",
-  //     amount: "$200.00",
-  //     status: "paid",
-  //     numOfCredits: 10,
-  //     dateIssued: "2024-03-05",
-  //   },
-  //   {
-  //     id: "INV-003",
-  //     amount: "$200.00",
-  //     status: "paid",
-  //     numOfCredits: 10,
-  //     dateIssued: "2024-03-05",
-  //   },
-  //   {
-  //     id: "INV-004",
-  //     amount: "$200.00",
-  //     status: "failed",
-  //     numOfCredits: 10,
-  //     dateIssued: "2024-03-05",
-  //   },
-  //   {
-  //     id: "INV-005",
-  //     amount: "$200.00",
-  //     status: "paid",
-  //     numOfCredits: 10,
-  //     dateIssued: "2024-03-05",
-  //   },
-  //   {
-  //     id: "INV-006",
-  //     amount: "$200.00",
-  //     status: "failed",
-  //     numOfCredits: 10,
-  //     dateIssued: "2024-03-05",
-  //   },
-  //   {
-  //     id: "INV-007",
-  //     amount: "$200.00",
-  //     status: "paid",
-  //     numOfCredits: 10,
-  //     dateIssued: "2024-03-05",
-  //   },
-  //   {
-  //     id: "INV-008",
-  //     amount: "$200.00",
-  //     status: "paid",
-  //     numOfCredits: 10,
-  //     dateIssued: "2024-03-05",
-  //   },
-  //   {
-  //     id: "INV-009",
-  //     amount: "$200.00",
-  //     status: "paid",
-  //     numOfCredits: 10,
-  //     dateIssued: "2024-03-05",
-  //   },
-  //   {
-  //     id: "INV-010",
-  //     amount: "$200.00",
-  //     status: "paid",
-  //     numOfCredits: 10,
-  //     dateIssued: "2024-03-05",
-  //   },
-];
+import { supabase } from "@/app/config/superbase.config";
+import useUser from "@/app/hooks/getUser";
+import { useEffect, useState } from "react";
+import Spinner from "../Spinner";
+import moment from "moment";
 
-const PaymentHistory = () => {
+const PaymentHistory = ({ refreshHistory }: { refreshHistory?: number }) => {
+  const [payments, setpayments] = useState<{ [key: string]: any }[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [initialized, setinitialized] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [paginationInfo, setPaginationInfo] = useState({
+    total: 0,
+    skip: 0,
+    limit: 12,
+  });
+  const [user] = useUser();
+
+  const fetchPayments = async (loadMore = false, userSupabaseId: string) => {
+    if (loading || !userSupabaseId) return;
+    setLoading(true);
+
+    const skip = paginationInfo.skip;
+    const limit = paginationInfo.limit;
+
+    let query = supabase.from("payments").select("*", { count: "exact" });
+
+    if (userSupabaseId) {
+      query = query.eq("supabaseUserId", userSupabaseId);
+    }
+
+    //  if (filterData.status) {
+    //    query = query.eq("status", filterData.status);
+    //  }
+    //  if (filterData.title) {
+    //    const escapedTitle = escapeForILike(filterData.title);
+    //    query = query.ilike("title", `%${escapedTitle}%`);
+    //  }
+    //  if (filterData.startDate) {
+    //    query = query.gte("createdAt", filterData.startDate);
+    //  }
+    //  if (filterData.endDate) {
+    //    query = query.lte("createdAt", filterData.endDate);
+    //  }
+
+    query = query.range(skip, skip + limit - 1);
+
+    const { data, count, error } = await query;
+    setinitialized(true);
+
+    if (!error && data) {
+      const finalPayments = data.map((payment) => ({
+        id: payment.id,
+        invoiceNumber: payment.invoiceNumber || "",
+        amount: payment.amount || 0,
+        status: payment.status,
+        numOfCredits: payment.creditsPurchased,
+        dateIssued: payment.createdAt,
+      }));
+      setpayments((prev) =>
+        loadMore ? [...prev, ...finalPayments] : finalPayments
+      );
+
+      const newSkip = loadMore ? skip + limit : skip;
+
+      setPaginationInfo({
+        ...paginationInfo,
+        total: count || 0,
+        skip: newSkip,
+      });
+
+      // ✅ if no more results left
+      if (newSkip >= (count || 0)) {
+        setHasMore(false);
+      }
+    } else {
+      console.error("Error fetching interviews:", error);
+    }
+
+    setLoading(false);
+  };
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+
+    if (scrollTop + clientHeight >= scrollHeight - 50 && hasMore && !loading) {
+      fetchPayments(true, user.supabaseUserId);
+    }
+  };
+
+  useEffect(() => {
+    if (user.id) {
+      setPaginationInfo({
+        total: 0,
+        skip: 0,
+        limit: 12,
+      });
+      fetchPayments(false, user.supabaseUserId);
+    }
+  }, [user.id, refreshHistory]);
+
   return (
     <div className="w-full divide-y divide-foreground-secondary/30 relative">
       <div className="w-full bg-[#f3f3f3] text-sm font-semibold text-foreground-secondary grid grid-cols-5 py-3 rounded-t-2xl pr-[14px]">
@@ -89,7 +109,7 @@ const PaymentHistory = () => {
         <p className="px-2">Date Issued</p>
       </div>
 
-      <div className="overflow-y-auto max-h-[40vh]">
+      <div className="overflow-y-auto max-h-[40vh]" onScroll={handleScroll}>
         {payments.length ? (
           <>
             {payments.map((payment) => (
@@ -97,8 +117,13 @@ const PaymentHistory = () => {
                 key={payment.id}
                 className="w-full text-sm text-foreground-secondary grid grid-cols-5 py-3"
               >
-                <p className="px-2">{payment.id}</p>
-                <p className="px-2">{payment.amount}</p>
+                <p className="px-2">{payment.invoiceNumber}</p>
+                <p className="px-2">
+                  $
+                  {Number(payment.amount).toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })}
+                </p>
                 <p className="px-2">{payment.numOfCredits}</p>
                 <div className="px-2 capitalize">
                   <p
@@ -114,15 +139,28 @@ const PaymentHistory = () => {
                   </p>
                 </div>
 
-                <p className="px-2">{payment.dateIssued}</p>
+                <p className="px-2">
+                  {moment(payment.dateIssued).format("DD-MM-YYYY")}
+                </p>
               </div>
             ))}
           </>
-        ) : (
+        ) : initialized ? (
           <div className="w-full py-10 flex flex-col items-center justify-center">
             <p className="text-foreground-secondary text-sm">
               No payment history available.
             </p>
+          </div>
+        ) : (
+          ""
+        )}
+
+        {loading && (
+          <div className="w-full text-center text-sm">
+            <span className="inline-block align-middle mr-2">
+              <Spinner />
+            </span>
+            Fetching Payments...
           </div>
         )}
       </div>

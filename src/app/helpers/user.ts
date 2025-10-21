@@ -22,12 +22,20 @@ export const saveDBUser = async (
   name: string,
   superBaseId: string,
   pictureUrl?: string,
-  gender?: string
+  gender?: string,
+  updateProfile?: boolean
 ) => {
-  let update: { [key: string]: any } = {
-    numberOfCredits: 5,
-    totalCredits: 5,
-  };
+  let update: { [key: string]: any } = updateProfile
+    ? {
+        gender,
+        profileImageUrl: pictureUrl,
+      }
+    : {
+        gender,
+        profileImageUrl: pictureUrl,
+        numOfCredits: 5,
+        totalCredits: 5,
+      };
 
   if (email) {
     update = {
@@ -43,24 +51,10 @@ export const saveDBUser = async (
     };
   }
 
-  if (pictureUrl) {
-    update = {
-      ...update,
-      profileImageUrl: pictureUrl,
-    };
-  }
-
   if (superBaseId) {
     update = {
       ...update,
       supabaseUserId: superBaseId,
-    };
-  }
-
-  if (gender) {
-    update = {
-      ...update,
-      gender,
     };
   }
 

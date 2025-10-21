@@ -5,16 +5,20 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import toast from "react-hot-toast";
 
 const StripeCheckout = ({
   clientSecret,
   amount,
+  onClose,
+  setrefreshHistory,
 }: {
   clientSecret: string;
   amount: number;
   credits: number;
+  onClose?: () => void;
+  setrefreshHistory: Dispatch<SetStateAction<number>>;
 }) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -59,8 +63,15 @@ const StripeCheckout = ({
       // The payment UI automatically closes with a success animation.
       // Your customer is redirected to your `return_url`.
 
+      if (onClose) {
+        onClose();
+      }
+
       toast.success("Your payment was processed successfully", config);
       console.log("PaymentIntent:", paymentIntent);
+      if (setrefreshHistory) {
+        setrefreshHistory(Math.random());
+      }
     }
 
     setLoading(false);
