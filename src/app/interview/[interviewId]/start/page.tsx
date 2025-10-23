@@ -364,7 +364,7 @@ const InterviewSession = () => {
       <div className="w-[90%] mx-auto max-w-4xl">
         <Logo />
 
-        <div className="flex justify-between items-center w-full mt-5">
+        <div className="flex justify-between items-start space-x-3 w-full mt-5">
           <h3 className="text-xl font-medium font-lato">
             Interview:{" "}
             <span className="font-semibold">{interviewData?.title}</span>
@@ -373,7 +373,7 @@ const InterviewSession = () => {
           <div className="flex items-center space-x-3 text-xl">
             <TfiTimer className="text-foreground-secondary" />
 
-            <p>{timer}</p>
+            <p className="md:text-sm">{timer}</p>
           </div>
         </div>
 

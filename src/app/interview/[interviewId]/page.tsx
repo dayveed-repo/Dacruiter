@@ -133,7 +133,7 @@ const Interview = () => {
                 {interviewData?.description}
               </p>
 
-              <div className="pt-4 border-t border-foreground-secondary/30 flex space-x-6 mt-4">
+              <div className="pt-4 border-t border-foreground-secondary/30 grid grid-cols-2 md:flex gap-4 md:gap-6 mt-4">
                 <div className="flex items-center space-x-1.5">
                   <TfiTimer className="text-foreground-secondary" />
                   <h4 className="text-xs font-medium text-foreground-secondary">
@@ -194,9 +194,9 @@ const Interview = () => {
                 <div className="space-y-2 mt-6">
                   <h4 className="text-lg font-lato font-semibold">Join</h4>
 
-                  <div className="flex items-end space-x-5">
+                  <div className="flex flex-col md:space-y-0 space-y-4 md:items-end md:space-x-5">
                     <div className="flex space-x-4 flex-grow">
-                      <div className="space-y-1 w-[50%]">
+                      <div className="space-y-1 md:w-[50%]">
                         <p className="text-sm text-foreground-secondary">
                           Enter Name
                         </p>
@@ -213,7 +213,7 @@ const Interview = () => {
                         />
                       </div>
 
-                      <div className="space-y-1 w-[50%]">
+                      <div className="space-y-1 md:w-[50%]">
                         <p className="text-sm text-foreground-secondary">
                           Enter Email
                         </p>
