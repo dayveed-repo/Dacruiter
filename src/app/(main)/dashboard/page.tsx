@@ -140,13 +140,13 @@ const Dashboard = () => {
 
   return (
     <div className="py-3">
-      <div className="flex items-center justify-between">
+      <div className="flex md:flex-row flex-col md:items-center justify-between md:space-y-0 space-y-5">
         <h4 className="text-base font-semibold text-foreground">
           Welcome back, {user.name}
         </h4>
 
         <button
-          className="base-button"
+          className="base-button ml-auto"
           onClick={() => {
             router.push("/create-interview");
           }}

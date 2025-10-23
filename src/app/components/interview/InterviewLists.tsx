@@ -116,8 +116,9 @@ const InterviewLists = ({
       <p className="text-sm font-medium text-foreground-secondary">
         {pageDesc}
       </p>
-      <div className="flex mt-3 items-center space-x-3 bg-white px-2 py-3 rounded-lg shadow-sm">
-        <div className="space-y-1">
+
+      <div className="flex mt-3 flex-wrap md:flex-none items-center  gap-3 bg-white px-2 py-3 rounded-lg shadow-sm">
+        <div className="space-y-1 md:w-auto w-[48%]">
           <p className="text-sm text-foreground-secondary">Job Title</p>
           <input
             value={filterData.title}
@@ -130,7 +131,7 @@ const InterviewLists = ({
         </div>
 
         {showStatusFilter && (
-          <div className="space-y-1">
+          <div className="space-y-1 md:w-auto w-[48%]">
             <p className="text-sm text-foreground-secondary">Status</p>
             <select
               className="formInput"
@@ -146,7 +147,7 @@ const InterviewLists = ({
           </div>
         )}
 
-        <div className="space-y-1">
+        <div className="space-y-1 md:w-auto w-[48%]">
           <p className="text-sm text-foreground-secondary">Start Date</p>
           <input
             value={filterData.startDate}
@@ -158,7 +159,7 @@ const InterviewLists = ({
           />
         </div>
 
-        <div className="space-y-1">
+        <div className="space-y-1  md:w-auto w-[48%]">
           <p className="text-sm text-foreground-secondary">End Date</p>
           <input
             value={filterData.endDate}
@@ -181,7 +182,7 @@ const InterviewLists = ({
           </div>
         )}
 
-        <div className="mb-2 grid grid-cols-3 gap-4">
+        <div className="mb-2 grid grid-cols-1 md:grid-cols-3 gap-4">
           {interviews.map((interview) => (
             <InterviewCard
               key={interview.id}

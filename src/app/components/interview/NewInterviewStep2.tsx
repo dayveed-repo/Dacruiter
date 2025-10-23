@@ -242,7 +242,7 @@ const NewInterviewStep2 = ({
             : "cursor-pointer"
         }`}
       >
-        {generatingQuestions ? "Generating Questions..." : "Create Interview"}
+        {generatingQuestions ? "Creating Interview..." : "Create Interview"}
       </button>
     </div>
   );

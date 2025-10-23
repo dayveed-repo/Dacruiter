@@ -13,6 +13,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { supabase } from "../config/superbase.config";
 import toast from "react-hot-toast";
 import useUser from "../hooks/getUser";
+import { AiOutlineClose } from "react-icons/ai";
 
 type SidebarItem = {
   title: string;
@@ -48,7 +49,13 @@ const sidebarItems: SidebarItem[] = [
   },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({
+  setOpenSidebar,
+  openSidebar,
+}: {
+  openSidebar: boolean;
+  setOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const pathname = usePathname();
   const [loading, setloading] = useState(false);
   const router = useRouter();
@@ -69,8 +76,19 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="max-h-full h-full bg-secondary/10 w-[18%] px-3 py-5 flex flex-col">
-      <Logo pathname={user.email ? "/dashboard" : "/"} />
+    <div
+      className={`max-h-full h-full bg-white md:bg-secondary/10 absolute z-20 left-0 top-0 md:relative w-[50%] md:w-[18%] px-3 py-5 ${
+        openSidebar ? "flex" : "hidden md:flex"
+      } flex-col`}
+    >
+      <div className="flex items-center justify-between">
+        <Logo pathname={user.email ? "/dashboard" : "/"} />
+
+        <AiOutlineClose
+          className={`text-foreground h-[20px] w-[20px] cursor-pointer md:hidden`}
+          onClick={() => setOpenSidebar(false)}
+        />
+      </div>
 
       <div className="mt-6 space-y-2">
         {sidebarItems.map((item) => (

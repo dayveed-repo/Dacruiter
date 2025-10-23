@@ -16,7 +16,7 @@ const Billing = () => {
 
   return (
     <div className="w-full flex flex-col h-screen py-8">
-      <div className="w-[90%] mx-auto max-w-3xl">
+      <div className="w-full md:w-[90%] md:mx-auto md:max-w-3xl">
         <div className="flex items-center justify-between">
           <h3 className="text-foreground font-lato font-semibold text-xl">
             Credit Stats

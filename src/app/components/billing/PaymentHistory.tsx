@@ -100,32 +100,45 @@ const PaymentHistory = ({ refreshHistory }: { refreshHistory?: number }) => {
   }, [user.id, refreshHistory]);
 
   return (
-    <div className="w-full divide-y divide-foreground-secondary/30 relative">
-      <div className="w-full bg-[#f3f3f3] text-sm font-semibold text-foreground-secondary grid grid-cols-5 py-3 rounded-t-2xl pr-[14px]">
-        <p className="px-2">Invoice ID</p>
-        <p className="px-2">Amount</p>
-        <p className="px-2">Credits Purchased</p>
-        <p className="px-2">Status</p>
-        <p className="px-2">Date Issued</p>
+    <div className="w-full max-w-[100%] overflow-x-scroll md:overflow-x-visible divide-y divide-foreground-secondary/30 relative">
+      <div className="md:w-full w-max bg-[#f3f3f3] text-sm font-semibold text-foreground-secondary flex md:grid grid-cols-5 py-3 rounded-t-2xl md:pr-[14px]">
+        <p className="px-2 md:min-w-0 min-w-[120px]">Invoice ID</p>
+        <p className="px-2 md:min-w-0 min-w-[100px]">Amount</p>
+        <p className="px-2 md:min-w-0 min-w-[120px] md:max-w-none max-w-[120px]">
+          Credits Purchased
+        </p>
+        <p className="px-2 md:min-w-0 min-w-[100px] md:max-w-none max-w-[100px]">
+          Status
+        </p>
+        <p className="px-2 md:min-w-0 min-w-[100px]">Date Issued</p>
       </div>
 
-      <div className="overflow-y-auto max-h-[40vh]" onScroll={handleScroll}>
+      <div
+        className="w-full max-h-[40vh] md:overflow-y-scroll"
+        onScroll={handleScroll}
+      >
         {payments.length ? (
           <>
             {payments.map((payment) => (
               <div
                 key={payment.id}
-                className="w-full text-sm text-foreground-secondary grid grid-cols-5 py-3"
+                className="w-max md:w-full text-sm text-foreground-secondary flex md:grid grid-cols-5 py-3"
               >
-                <p className="px-2">{payment.invoiceNumber}</p>
-                <p className="px-2">
+                <p className="px-2 md:min-w-0 min-w-[120px]">
+                  {payment.invoiceNumber}
+                </p>
+                <p className="px-2 md:min-w-0 min-w-[100px]">
                   $
                   {Number(payment.amount).toLocaleString(undefined, {
                     maximumFractionDigits: 2,
                   })}
                 </p>
-                <p className="px-2">{payment.numOfCredits}</p>
-                <div className="px-2 capitalize">
+
+                <p className="px-2 md:min-w-0 min-w-[120px] md:max-w-none max-w-[120px]">
+                  {payment.numOfCredits}
+                </p>
+
+                <div className="px-2 capitalize md:min-w-0 min-w-[100px] md:max-w-none max-w-[100px]">
                   <p
                     className={`${
                       payment.status === "paid"
@@ -139,7 +152,7 @@ const PaymentHistory = ({ refreshHistory }: { refreshHistory?: number }) => {
                   </p>
                 </div>
 
-                <p className="px-2">
+                <p className="px-2 md:min-w-0 min-w-[100px]">
                   {moment(payment.dateIssued).format("DD-MM-YYYY")}
                 </p>
               </div>

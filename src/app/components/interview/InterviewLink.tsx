@@ -54,26 +54,26 @@ const InterviewLink = ({
       <Toaster />
       <h3>Interview Link</h3>
 
-      <div className="mt-2 flex space-x-2 items-center pb-3 border-b border-foreground-secondary/30">
-        <p className="p-2 bg-primary/15 rounded-xl text-xs text-primary-blue">
+      <div className="mt-2 flex flex-wrap md:flex-nowrap gap-2 items-center pb-3 border-b border-foreground-secondary/30">
+        <p className="w-[85%] md:w-auto p-2 bg-primary/15 rounded-xl text-xs text-primary-blue">
           {interviewUrl}
         </p>
 
         <MdContentCopy
-          className="text-lg text-primary cursor-pointer mr-auto ml-2"
+          className="text-lg text-primary cursor-pointer mr-auto ml-2 min-w-[20px]"
           onClick={handleCopyLink}
         />
 
         <button
           onClick={handleShare}
-          className="base-button p-2 flex items-center space-x-2 rounded-lg"
+          className="base-button p-2 flex items-center justify-center space-x-2 rounded-lg w-[28%] md:w-auto"
         >
           <IoMdShareAlt className="text-xl" />
           Share
         </button>
       </div>
 
-      <div className="flex items-center space-x-4 mt-5">
+      <div className="grid grid-cols-2 md:flex md:items-center gap-4 mt-5">
         <div className="flex items-center space-x-1.5">
           <TfiTimer className="text-foreground-secondary" />
           <h4 className="text-xs font-medium text-foreground-secondary">

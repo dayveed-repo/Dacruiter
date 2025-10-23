@@ -130,7 +130,7 @@ const Settings = () => {
   return (
     <div className="py-3">
       <form
-        className="w-[60%] max-w-2xl rounded-2xl shadow-md bg-white p-5 mx-auto"
+        className="md:w-[60%] md:max-w-2xl rounded-2xl shadow-md bg-white p-5 mx-auto"
         onSubmit={submitProfile}
       >
         <Toaster />

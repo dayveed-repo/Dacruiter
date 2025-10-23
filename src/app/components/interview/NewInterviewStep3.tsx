@@ -11,10 +11,10 @@ const NewInterviewStep3 = ({
     <div>
       <div className="flex flex-col items-center">
         <FaCheckCircle className="text-6xl text-green-500 mb-4" />
-        <h2 className="text-2xl font-semibold text-foreground">
+        <h2 className="text-2xl font-semibold text-foreground text-center">
           AI Interview Created Successfully!
         </h2>
-        <p className="text-sm font-medium text-foreground-secondary mt-2">
+        <p className="text-sm font-medium text-foreground-secondary mt-2 text-center">
           Share details of interview to candidates to receive applications for
           the job
         </p>

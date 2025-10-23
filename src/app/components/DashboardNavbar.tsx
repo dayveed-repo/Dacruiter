@@ -5,15 +5,18 @@ import useUser from "../hooks/getUser";
 import Image from "next/image";
 import { MdArrowBack } from "react-icons/md";
 import Logo from "./Logo";
+import { BiMenu } from "react-icons/bi";
 
 const DashboardNavbar = ({
   pageTitle,
   allowBack,
   showLogo,
+  setOpenSidebar,
 }: {
   pageTitle?: string;
   allowBack?: boolean;
   showLogo?: boolean;
+  setOpenSidebar?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [title, settitle] = useState(pageTitle || "");
   const pathname = usePathname();
@@ -56,13 +59,22 @@ const DashboardNavbar = ({
             />
           )}
 
+          {setOpenSidebar ? (
+            <BiMenu
+              className={`text-foreground h-[20px] w-[20px] cursor-pointer md:hidden mr-4`}
+              onClick={() => setOpenSidebar(true)}
+            />
+          ) : (
+            ""
+          )}
+
           {showLogo && (
             <div className="mr-7">
               <Logo pathname="/dashboard" />
             </div>
           )}
 
-          <h2 className="text-primary-blue font-semibold font-lato text-3xl">
+          <h2 className="text-primary-blue font-semibold font-lato text-xl md:text-3xl">
             {title}
           </h2>
         </div>
@@ -76,13 +88,13 @@ const DashboardNavbar = ({
               width={0}
               unoptimized
               priority
-              className="w-[40px] h-[40px] object-cover rounded-full"
+              className="w-8 md:w-[40px] h-8 md:h-[40px] object-cover rounded-full"
             />
           ) : (
             ""
           )}
 
-          <h4 className="text-foreground-secondary font-medium text-base">
+          <h4 className="text-foreground-secondary font-medium text-sm md:text-base">
             {dbUser.name}
           </h4>
         </div>

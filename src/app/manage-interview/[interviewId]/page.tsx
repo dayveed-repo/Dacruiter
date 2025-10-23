@@ -180,8 +180,8 @@ const ManageInterview = () => {
           Fetching Interview Information...
         </div>
       ) : (
-        <div className="flex space-x-10 w-full px-3 py-4">
-          <div className="w-[60%] space-y-8">
+        <div className="md:flex md:space-x-10 w-full px-3 py-4">
+          <div className="w-full md:w-[60%] space-y-8">
             <div className="w-full p-5 rounded-2xl bg-white shadow-md">
               <>
                 <h3 className="text-2xl font-lato font-semibold">
@@ -202,7 +202,7 @@ const ManageInterview = () => {
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-foreground-secondary/30 grid grid-cols-3 gap-x-6 gap-y-3 mt-4">
+                <div className="pt-4 border-t border-foreground-secondary/30 grid grid-cols-2 md:grid-cols-3 md:gap-x-6 gap-x-4 gap-y-3 mt-4">
                   <div className="flex items-center space-x-1.5">
                     <TfiTimer className="text-foreground-secondary" />
                     <h4 className="text-xs font-medium text-foreground-secondary">
@@ -307,6 +307,75 @@ const ManageInterview = () => {
               </>
             </div>
 
+            <div className="w-full p-5 rounded-2xl bg-white shadow-md md:hidden flex items-center">
+              <h3 className="text-lg font-semibold text-foreground">Status</h3>
+
+              <div
+                className={`${
+                  interviewData?.status === "active"
+                    ? "text-[#10B981] bg-[#10B981]/10"
+                    : "text-foreground-secondary bg-foreground-secondary/10"
+                } px-3 py-1 rounded-full text-sm font-medium capitalize ml-4`}
+              >
+                {interviewData?.status}
+              </div>
+
+              {interviewData?.status === "active" ? (
+                <button
+                  onClick={() => setshowConfirmCloseModal(true)}
+                  className="base-button p-2 flex items-center space-x-2 rounded-lg ml-auto"
+                >
+                  Close Interview
+                </button>
+              ) : interviewData?.status === "closed" ? (
+                <p className="text-xs font-medium text-foreground-secondary ml-auto">
+                  Closed:{" "}
+                  {moment(interviewData?.closedAt).format("MMM DD, YYYY")}
+                </p>
+              ) : (
+                ""
+              )}
+
+              <Modal
+                open={showConfirmCloseModal}
+                title="Close Interview"
+                onClose={() => setshowConfirmCloseModal(false)}
+              >
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    // endInterview();
+                    closeUserInterview();
+                  }}
+                >
+                  <p className="text-foreground-secondary text-sm">
+                    Are you sure you want to close this interview? This action
+                    is irreversible and new candidates will no longer be able to
+                    apply.
+                  </p>
+                  <div className="mb-6 space-y-4"></div>
+                  <div className="flex justify-end space-x-2">
+                    <button
+                      type="button"
+                      className="px-4 py-2 base-button bg-primary/15 text-primary rounded"
+                      onClick={() => setshowConfirmCloseModal(false)}
+                    >
+                      Cancel
+                    </button>
+
+                    <button
+                      onClick={closeUserInterview}
+                      disabled={closingInterview}
+                      type="submit"
+                      className="px-4 py-2 base-button rounded"
+                    >
+                      {closingInterview ? "Closing..." : "Close Interview"}
+                    </button>
+                  </div>
+                </form>
+              </Modal>
+            </div>
+
             <div
               className="w-full p-5 rounded-2xl bg-white shadow-md max-h-[40vh]"
               onScroll={handleScroll}
@@ -352,8 +421,8 @@ const ManageInterview = () => {
             </div>
           </div>
 
-          <div className="w-[40%] space-y-8">
-            <div className="w-full p-5 rounded-2xl bg-white shadow-md flex items-center">
+          <div className="w-full md:w-[40%] md:space-y-8 md:mt-0 mt-8">
+            <div className="w-full p-5 rounded-2xl bg-white shadow-md hidden md:flex items-center">
               <h3 className="text-lg font-semibold text-foreground">Status</h3>
 
               <div

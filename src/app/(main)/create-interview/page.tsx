@@ -22,15 +22,20 @@ const CreateInterview = () => {
   const [savedInterview, setsavedInterview] = useState<null | {
     [key: string]: any;
   }>(null);
+  const [otherCachedSkills, setotherCachedSkills] = useState<
+    { title: string; tools: string[] }[] | never[]
+  >([]);
 
   return (
     <div className="py-3">
-      <div className="w-[60%] max-w-2xl space-y-3 mx-auto flex flex-col items-center">
+      <div className="w-full md:w-[60%] md:max-w-2xl space-y-3 mx-auto flex flex-col items-center">
         <Stepper currentStep={currentStep} numberOfSteps={3} />
 
         <div className="p-5 rounded-2xl shadow-md bg-white w-full">
           {currentStep === 1 ? (
             <NewInterViewStep1
+              cachedOtherSkills={otherCachedSkills}
+              setCachedOtherSkills={setotherCachedSkills}
               setformDetails={setformDetails}
               formDetails={formDetails}
               setgeneratedQuestions={setgeneratedQuestions}

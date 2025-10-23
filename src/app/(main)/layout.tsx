@@ -1,5 +1,4 @@
-import DashboardNavbar from "../components/DashboardNavbar";
-import Sidebar from "../components/Sidebar";
+import DasboardWrapper from "./DasboardWrapper";
 
 export default function Layout({
   children,
@@ -7,13 +6,8 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className={`font-sans h-screen w-full flex`}>
-      <Sidebar />
-
-      <div className="w-[82%] flex flex-col bg-secondary/10 py-5">
-        <DashboardNavbar />
-        <div className="flex-grow overflow-y-scroll mt-2 px-4">{children}</div>
-      </div>
+    <div className={`font-sans h-screen w-full flex relative`}>
+      <DasboardWrapper>{children}</DasboardWrapper>
     </div>
   );
 }

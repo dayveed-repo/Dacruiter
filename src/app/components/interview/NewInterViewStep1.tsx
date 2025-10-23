@@ -12,17 +12,35 @@ import {
 } from "react-icons/md";
 import Spinner from "../Spinner";
 import { interviewTypes } from "@/app/helpers/constants";
+import { title } from "process";
 
 const NewInterViewStep1 = ({
   formDetails,
   setformDetails,
   setgeneratedQuestions,
   setCurrentStep,
+  setCachedOtherSkills,
+  cachedOtherSkills,
 }: {
   formDetails: FormType;
   setformDetails: React.Dispatch<React.SetStateAction<FormType>>;
   setgeneratedQuestions: React.Dispatch<React.SetStateAction<any[]>>;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
+  cachedOtherSkills:
+    | {
+        title: string;
+        tools: string[];
+      }[]
+    | never[];
+  setCachedOtherSkills: React.Dispatch<
+    React.SetStateAction<
+      | {
+          title: string;
+          tools: string[];
+        }[]
+      | never[]
+    >
+  >;
 }) => {
   const [formData, setformData] = useState<FormType>(
     formDetails || {
@@ -38,7 +56,7 @@ const NewInterViewStep1 = ({
 
   const [otherSkills, setotherSkills] = useState<
     { title: string; tools: string[] }[] | never[]
-  >([]);
+  >(cachedOtherSkills || []);
   const saveTimeout = useRef<NodeJS.Timeout | null>(null);
   const [genratingQuestions, setgenratingQuestions] = useState(false);
   const [fetchingOtherSkills, setfetchingOtherSkills] = useState(false);
@@ -68,6 +86,10 @@ const NewInterViewStep1 = ({
       ...formData,
       [field]: val,
     });
+
+    if (field === "title" || field === "description") {
+      setotherSkills([]);
+    }
   };
 
   const fetchOtherSkills = async () => {
@@ -85,6 +107,7 @@ const NewInterViewStep1 = ({
     const data = await response.json();
     if (data && data?.skills && data?.skills?.length > 0) {
       setotherSkills(data.skills);
+      setCachedOtherSkills(data.skills);
     }
     setfetchingOtherSkills(false);
   };
@@ -154,7 +177,7 @@ const NewInterViewStep1 = ({
   };
 
   useEffect(() => {
-    if (formData.title && formData.description) {
+    if (formData.title && formData.description && !otherSkills.length) {
       if (saveTimeout.current) {
         clearTimeout(saveTimeout.current);
       }
