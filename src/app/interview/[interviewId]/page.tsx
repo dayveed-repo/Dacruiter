@@ -194,7 +194,7 @@ const Interview = () => {
                 <div className="space-y-2 mt-6">
                   <h4 className="text-lg font-lato font-semibold">Join</h4>
 
-                  <div className="flex flex-col md:space-y-0 space-y-4 md:items-end md:space-x-5">
+                  <div className="flex flex-col md:flex-row md:space-y-0 space-y-4 md:items-end md:space-x-5">
                     <div className="flex space-x-4 flex-grow">
                       <div className="space-y-1 md:w-[50%]">
                         <p className="text-sm text-foreground-secondary">

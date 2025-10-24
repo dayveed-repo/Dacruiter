@@ -31,6 +31,7 @@ const InterviewSession = () => {
   const [showModal, setShowModal] = React.useState(false);
   const [starting, setstarteing] = useState(false);
   const [endingInterview, setendingInterview] = useState(false);
+  const [interviewOver, setinterviewOver] = useState(false);
 
   // const [history, sethistory] = useState<{ [key: string]: any }[]>([]);
   // const [listening, setListening] = useState(false);
@@ -138,7 +139,7 @@ const InterviewSession = () => {
   };
 
   const endInterview = async () => {
-    if (endingInterview) return;
+    if (endingInterview || infoText.includes("Ending Interview")) return;
     setendingInterview(true);
     setinfoText("Ending Interview...");
 
@@ -205,10 +206,18 @@ const InterviewSession = () => {
     const handleMessage = (msg: any) => {
       if (msg?.type === "conversation-update") {
         let conversations: { role: string; content: string }[] = [],
-          existingUserMessage = false;
+          existingUserMessage = false,
+          endInterview = false;
         msg.conversation?.forEach((conv: { role: string; content: string }) => {
           if (conv.role?.toLowerCase() !== "system") {
             conversations = [...conversations, conv];
+
+            if (
+              conv?.content?.includes("Thanks for joining") ||
+              conv?.content?.includes("Hope to see you soon.")
+            ) {
+              endInterview = true;
+            }
           }
           if (conv.role?.toLowerCase() === "user") {
             existingUserMessage = true;
@@ -217,6 +226,10 @@ const InterviewSession = () => {
 
         if (existingUserMessage) {
           setconversation(conversations);
+        }
+
+        if (endInterview) {
+          setinterviewOver(true);
         }
       }
     };
@@ -237,6 +250,12 @@ const InterviewSession = () => {
       stopTimer();
     };
   }, [interviewData?.id]);
+
+  useEffect(() => {
+    if (interviewOver) {
+      endInterview();
+    }
+  }, [interviewOver]);
 
   const startListening = () => {
     if (!("webkitSpeechRecognition" in window)) {
@@ -431,8 +450,10 @@ const InterviewSession = () => {
           ) : (
             <div
               onClick={() => {
+                if (endingInterview) return;
                 setShowModal(true);
               }}
+              style={{ opacity: endingInterview ? "0.6" : "1" }}
               className="text-white bg-red-500 rounded-full flex items-center justify-center h-[50px] w-[50px] cursor-pointer text-xl"
             >
               <IoCallOutline />
