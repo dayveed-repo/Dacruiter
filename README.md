@@ -8,9 +8,10 @@ time.
 
 ## 🚀 Features
 
-- 📄 User dashboard and analytics
-- 🤖 AI-powered Interview Questions
-- 🔒 Manage Interviews and Candidate
+- User dashboard and analytics
+- AI-powered Interview Questions
+- Manage Interviews and Candidate
+- Payment Processing With Stripe
 
 ---
 
